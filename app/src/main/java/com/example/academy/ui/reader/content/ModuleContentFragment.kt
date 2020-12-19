@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.academy.R
 import com.example.academy.data.ModuleEntity
+import com.example.academy.databinding.FragmentModuleContentBinding
 import com.example.academy.ui.reader.CourseReaderViewModel
+import com.example.academy.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_module_content.*
 
 class ModuleContentFragment : Fragment() {
@@ -21,25 +23,41 @@ class ModuleContentFragment : Fragment() {
         }
     }
 
+    private var _binding: FragmentModuleContentBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_module_content, container, false)
+        _binding = FragmentModuleContentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            val viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory())[CourseReaderViewModel::class.java]
-            val module = viewModel.getSelectedModule()
-            populateWebView(module)
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            val viewModel = ViewModelProvider(requireActivity(), factory)[CourseReaderViewModel::class.java]
+
+            binding.progressBar.visibility = View.VISIBLE
+            viewModel.getSelectedModule().observe(viewLifecycleOwner, { module ->
+                binding.progressBar.visibility = View.GONE
+                if (module != null) {
+                    populateWebView(module)
+                }
+            })
         }
     }
 
     private fun populateWebView(module: ModuleEntity) {
-        module.contentEntity?.content?.let { web_view.loadData(it, "text/html", "UTF-8") }
+        module.contentEntity?.content?.let { binding.webView.loadData(it, "text/html", "UTF-8") }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

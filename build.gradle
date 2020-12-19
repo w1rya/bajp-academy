@@ -5,10 +5,11 @@ buildscript {
 
         appCompatVersion = '1.2.0'
         coreVersion = '1.3.2'
-        constraintLayoutVersion = '2.0.2'
-        junitVersion = '4.13'
+        constraintLayoutVersion = '2.0.4'
+        junitVersion = '4.13.1'
         espressoVersion = '3.3.0'
         androidXTestVersion = '1.3.0'
+        mockitoVersion = '3.6.0'
 
         materialVersion = '1.2.1'
         recyclerViewVersion = '1.1.0'
@@ -21,7 +22,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

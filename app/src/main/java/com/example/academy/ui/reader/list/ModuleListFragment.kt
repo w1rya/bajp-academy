@@ -11,19 +11,24 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academy.R
 import com.example.academy.data.ModuleEntity
+import com.example.academy.databinding.FragmentModuleListBinding
 import com.example.academy.ui.reader.CourseReaderActivity
 import com.example.academy.ui.reader.CourseReaderCallback
 import com.example.academy.ui.reader.CourseReaderViewModel
 import com.example.academy.utils.DataDummy
+import com.example.academy.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_module_list.*
 
 class ModuleListFragment : Fragment(), MyAdapterClickListener {
 
     companion object {
-        val TAG = ModuleListFragment::class.java.simpleName
+        val TAG: String = ModuleListFragment::class.java.simpleName
 
         fun newInstance(): ModuleListFragment = ModuleListFragment()
     }
+
+    private var _binding: FragmentModuleListBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var moduleListAdapter: ModuleListAdapter
     private lateinit var courseReaderCallback: CourseReaderCallback
@@ -34,14 +39,21 @@ class ModuleListFragment : Fragment(), MyAdapterClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_module_list, container, false)
+        _binding = FragmentModuleListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory())[CourseReaderViewModel::class.java]
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        viewModel = ViewModelProvider(requireActivity(), factory)[CourseReaderViewModel::class.java]
         moduleListAdapter = ModuleListAdapter(this)
-        populateRecyclerView(viewModel.getModules())
+
+        binding.progressBar.visibility = View.VISIBLE
+        viewModel.getModules().observe(viewLifecycleOwner, { modules ->
+            binding.progressBar.visibility = View.GONE
+            populateRecyclerView(modules)
+        })
     }
 
     override fun onAttach(context: Context) {
@@ -55,17 +67,21 @@ class ModuleListFragment : Fragment(), MyAdapterClickListener {
     }
 
     private fun populateRecyclerView(modules: List<ModuleEntity>) {
-        progress_bar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
         moduleListAdapter.setModules(modules)
 
-        with(rv_module) {
+        with(binding.rvModule) {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = moduleListAdapter
+            val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            addItemDecoration(dividerItemDecoration)
         }
+    }
 
-        val dividerItemDecoration = DividerItemDecoration(rv_module.context, DividerItemDecoration.VERTICAL)
-        rv_module.addItemDecoration(dividerItemDecoration)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
