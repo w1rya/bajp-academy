@@ -28,15 +28,15 @@ class DetailCourseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val activityDetailCourseBinding = ActivityDetailCourseBinding.inflate(layoutInflater)
-        setContentView(activityDetailCourseBinding.root)
         detailContentBinding = activityDetailCourseBinding.detailContent
+        setContentView(activityDetailCourseBinding.root)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(activityDetailCourseBinding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val adapter = DetailCourseAdapter()
+
         val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(this, factory)[DetailCourseViewModel::class.java]
 
@@ -44,13 +44,10 @@ class DetailCourseActivity : AppCompatActivity() {
         if (extras != null) {
             val courseId = extras.getString(EXTRA_COURSE)
             if (courseId != null) {
-
-                activityDetailCourseBinding.progressBar.visibility = View.VISIBLE
-                activityDetailCourseBinding.content.visibility = View.INVISIBLE
-
                 viewModel.setSelectedCourse(courseId)
+
                 viewModel.getModules().observe(this, { modules ->
-                    activityDetailCourseBinding.progressBar.visibility = View.INVISIBLE
+                    activityDetailCourseBinding.progressBar.visibility = View.GONE
                     activityDetailCourseBinding.content.visibility = View.VISIBLE
 
                     adapter.setModules(modules)

@@ -36,8 +36,10 @@ class AcademyRepositoryTest {
                 .onAllCoursesReceived(courseResponses)
             null
         }.`when`(remote).getAllCourses(any())
+
         val courseEntities = LiveDataTestUtil.getValue(academyRepository.getAllCourses())
         verify(remote).getAllCourses(any())
+
         assertNotNull(courseEntities)
         assertEquals(courseResponses.size.toLong(), courseEntities.size.toLong())
     }
