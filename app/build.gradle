@@ -58,6 +58,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junitExtversion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "androidx.arch.core:core-testing:$androidCoreTestVersion"
 
