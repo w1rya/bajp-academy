@@ -1,4 +1,4 @@
-package com.example.academy.data
+package com.example.academy.data.source.local.entity
 
 data class CourseEntity(
     var courseId: String,

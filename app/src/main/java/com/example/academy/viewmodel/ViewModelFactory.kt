@@ -3,7 +3,7 @@ package com.example.academy.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.academy.data.source.AcademyRepository
+import com.example.academy.data.AcademyRepository
 import com.example.academy.di.Injection
 import com.example.academy.ui.academy.AcademyViewModel
 import com.example.academy.ui.bookmark.BookmarkViewModel

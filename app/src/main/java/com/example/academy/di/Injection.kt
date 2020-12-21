@@ -1,7 +1,7 @@
 package com.example.academy.di
 
 import android.content.Context
-import com.example.academy.data.source.AcademyRepository
+import com.example.academy.data.AcademyRepository
 import com.example.academy.data.source.remote.RemoteDataSource
 import com.example.academy.utils.JsonHelper
 

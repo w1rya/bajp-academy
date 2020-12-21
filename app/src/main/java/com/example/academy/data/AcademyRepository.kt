@@ -1,17 +1,18 @@
-package com.example.academy.data.source
+package com.example.academy.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.academy.data.ContentEntity
-import com.example.academy.data.CourseEntity
-import com.example.academy.data.ModuleEntity
+import com.example.academy.data.source.local.entity.ContentEntity
+import com.example.academy.data.source.local.entity.CourseEntity
+import com.example.academy.data.source.local.entity.ModuleEntity
 import com.example.academy.data.source.remote.RemoteDataSource
 import com.example.academy.data.source.remote.RemoteDataSource.*
 import com.example.academy.data.source.remote.response.ContentResponse
 import com.example.academy.data.source.remote.response.CourseResponse
 import com.example.academy.data.source.remote.response.ModuleResponse
 
-class AcademyRepository private constructor(private val remoteDataSource: RemoteDataSource) : AcademyDataSource {
+class AcademyRepository private constructor(private val remoteDataSource: RemoteDataSource) :
+    AcademyDataSource {
 
     companion object {
         @Volatile
