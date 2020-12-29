@@ -18,6 +18,8 @@ class BookmarkAdapter(private val callback: BookmarkFragmentCallback) : Recycler
         if (courses == null) return
         listCourses.clear()
         listCourses.addAll(courses)
+
+        this.notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
